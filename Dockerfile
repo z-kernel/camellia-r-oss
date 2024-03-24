@@ -1,28 +1,34 @@
-FROM ghcr.io/z-docker/android-ndk
+FROM ghcr.io/z-docker/archlinux:multilib
 LABEL maintainer="Zero <github.com/z-nerd>" 
 LABEL description="Camellia-r-oss builder"
 
 RUN sudo pacman-key --init && \
   sudo pacman-key --populate archlinux && \
-  sudo pacman -Syu --noconfirm 
+  sudo pacman -Syu --noconfirm && \
+  yes | sudo pacman -Scc
 
-RUN sudo mkdir -p /opt/app/out && \
-  sudo chmod -R 777 /opt/app
+RUN sudo mkdir -p /opt/build/tools && \
+  sudo chmod -R 777 /opt/build
+WORKDIR /opt/build
 
-WORKDIR /opt/app
-
-RUN git clone --depth=1 https://github.com/MiCode/Xiaomi_Kernel_OpenSource.git -b camellia-r-oss camellia-r-oss && \
-  pushd camellia-r-oss && \
-  git clone --depth=1 https://github.com/z-kernel/gcc-aarch64-linux-android-4.9.git toolchain && \
+RUN pushd tools && \
+  wget https://android.googlesource.com/platform//prebuilts/clang/host/linux-x86/+archive/3857008389202edac32d57008bb8c99d2c957f9d/clang-r383902.tar.gz -o clang.tar.gz && \
+  mkdir clang && tar -zvxf clang.tar.gz -C clang && \
+  rm clang.tar.gz && \
   popd
+ENV CLANG_TOOLCHAINS /opt/build/tools/clang/bin
 
-RUN git clone --depth=1 https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86 clang_toolchains
-RUN git clone --depth=1 https://github.com/ArrowOS-Devices/proton-clang.git
+RUN pushd tools && \
+  git clone --depth=1 https://github.com/z-kernel/gcc-aarch64-linux-android-4.9.git gcc && \
+  popd
+ENV GCC_TOOLCHAINS /opt/build/tools/gcc/bin
 
-ENV ANDROID_NDK /opt/android-ndk
-ENV CLANG_TOOLCHAINS /opt/app/clang_toolchains/clang-r487747c/bin
-ENV GCC_TOOLCHAINS /opt/app/camellia-r-oss/toolchain/bin
-ENV PROTON_TOOLCHAINS /opt/app/proton-clang/bin
+RUN git clone --depth=1 https://github.com/MiCode/Xiaomi_Kernel_OpenSource.git -b camellia-r-oss kernel && \
+  pushd kernel && \
+  git fetch --depth=1 origin 4b6c276ac99cad51bf4d0bd6ea12a32847403b42 && \
+  mkdir out && \
+  popd
+ENV KERNEL_SRC /opt/build/kernel
 
 COPY entrypoint.sh .
 

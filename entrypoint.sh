@@ -1,7 +1,7 @@
 #!/bin/bash
 set -m
-sudo pacman -Sy aarch64-linux-gnu-binutils aarch64-linux-gnu-gcc --noconfirm
-#export PATH="$CLANG_PATH:$AARCH64_PATH:$ARM32_PATH:$PATH"
+whoami
+
 export PATH="$CLANG_TOOLCHAINS:$PATH"
 
 export ARCH=arm64
@@ -12,23 +12,24 @@ export CLANG_TRIPLE=aarch64-linux-gnu-
 export CROSS_COMPILE=aarch64-linux-android-
 #export CROSS_COMPILE_ARM32=arm-linux-androideabi-
 
-pushd camellia-r-oss
-sudo chmod -R 777 out
-make O=out ARCH=$ARCH camellia_defconfig
+#pushd camellia-r-oss
+#sudo chmod -R 777 out
+#make O=out ARCH=$ARCH camellia_defconfig
 
-make -j$(nproc --all) O=out \
-	ARCH=$ARCH \
-	SUBARCH=$SUBARCH \
-	CC=$CC \
-	AR=llvm-ar \
-	NM=llvm-nm \
-	OBJCOPY=llvm-objcopy \
-	OBJDUMP=llvm-objdump \
-	STRIP=llvm-strip \
-	CLANG_TRIPLE=$CLANG_TRIPLE \
-	CROSS_COMPILE=$CROSS_COMPILE \
-	2>&1 | tee out/kernel.log
-popd
+#make -j$(nproc --all) O=out \
+#	ARCH=$ARCH \
+#	SUBARCH=$SUBARCH \
+#	CC=$CC \
+#	AR=llvm-ar \
+#	NM=llvm-nm \
+#	OBJCOPY=llvm-objcopy \
+#	OBJDUMP=llvm-objdump \
+#	STRIP=llvm-strip \
+#	CLANG_TRIPLE=$CLANG_TRIPLE \
+#	CROSS_COMPILE=$CROSS_COMPILE \
+#	2>&1 | tee out/kernel.log
+#popd
+
 # export TOOLCHAIN=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64
 # export TARGET=aarch64-linux-android
 # # Set this to your minSdkVersion.

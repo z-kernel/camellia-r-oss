@@ -11,7 +11,7 @@ build:
 
 	docker run \
 		--name ${IMAGE_NAME}-container \
-		-v ./out:/opt/app/camellia-r-oss/out \
+		-v ./out:/opt/build/kernel/out \
 		$(IMAGE_NAME):${TAG}
 
 	make clean_image
