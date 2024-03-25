@@ -19,7 +19,7 @@ RUN pushd tools && \
 ENV CLANG_TOOLCHAINS /opt/build/tools/clang-r383902/bin
 
 RUN pushd tools && \
-  git clone --depth=1 git clone https://android.googlesource.com/platform/prebuilts/build-tools build-tools && \
+  git clone --depth=1 https://android.googlesource.com/platform/prebuilts/build-tools build-tools && \
   popd
 ENV BUILDTOOLS_TOOLCHAINS /opt/build/build-tools
 
