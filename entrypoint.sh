@@ -1,58 +1,43 @@
 #!/bin/bash
 set -m
-whoami
 
-export PATH="$CLANG_TOOLCHAINS:$PATH"
+export BRANCH=android-4.14
+export KERNEL_DIR=common
+
+export CC=clang
+export LD=ld.lld
+export CLANG_PREBUILT_BIN=$CLANG_TOOLCHAINS
+export BUILDTOOLS_PREBUILT_BIN=$BUILDTOOLS_TOOLCHAINS/path/linux-x86
+
+export EXTRA_CMDS=''
+export STOP_SHIP_TRACEPRINTK=1
 
 export ARCH=arm64
-export SUBARCH=arm64
-export CC=clang
-#export DTC_EXT=dtc
 export CLANG_TRIPLE=aarch64-linux-gnu-
-export CROSS_COMPILE=aarch64-linux-android-
-#export CROSS_COMPILE_ARM32=arm-linux-androideabi-
+export CROSS_COMPILE=aarch64-linux-androidkernel-
+export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=$GCC_TOOLCHAINS
+#export FILES="
+#arch/arm64/boot/Image.gz
+#vmlinux
+#System.map
+#"
 
-#pushd camellia-r-oss
-#sudo chmod -R 777 out
-#make O=out ARCH=$ARCH camellia_defconfig
+pushd $KERNEL_SRC
+make O=out ARCH=$ARCH camellia_defconfig
+sudo chmod -R 777 out
 
-#make -j$(nproc --all) O=out \
-#	ARCH=$ARCH \
-#	SUBARCH=$SUBARCH \
-#	CC=$CC \
-#	AR=llvm-ar \
-#	NM=llvm-nm \
-#	OBJCOPY=llvm-objcopy \
-#	OBJDUMP=llvm-objdump \
-#	STRIP=llvm-strip \
-#	CLANG_TRIPLE=$CLANG_TRIPLE \
-#	CROSS_COMPILE=$CROSS_COMPILE \
-#	2>&1 | tee out/kernel.log
-#popd
-
-# export TOOLCHAIN=$ANDROID_NDK/toolchains/llvm/prebuilt/linux-x86_64
-# export TARGET=aarch64-linux-android
-# # Set this to your minSdkVersion.
-# export API=34
-
-# export ARCH=arm64
-# export SUBARCH=arm64
-# export DTC_EXT=dtc
-# # export CLANG_TRIPLE=aarch64-linux-gnu-
-
-# # Configure and build.
-# export AR=$TOOLCHAIN/bin/llvm-ar
-# export CC=$TOOLCHAIN/bin/$TARGET$API-clang
-# # export CROSS_COMPILE=$TOOLCHAIN/bin/$TARGET
-# export AS=$CC
-# export CXX=$TOOLCHAIN/bin/$TARGET$API-clang++
-# export LD=$TOOLCHAIN/bin/ld
-# export RANLIB=$TOOLCHAIN/bin/llvm-ranlib
-# export STRIP=$TOOLCHAIN/bin/llvm-strip
-
-# make O=out ARCH=$ARCH camellia_defconfig
-
-# make -j$(nproc --all) O=out \
-#     ARCH=$ARCH \
-#     CC=$CC \
-#     2>&1 | tee out/kernel.log
+make -j$(nproc --all) O=out \
+	BRANCH=$BRANCH \
+	KERNEL_DIR=$KERNEL_DIR \
+	CC=$CC \
+	LD=$LD \
+	CLANG_PREBUILT_BIN=$CLANG_PREBUILT_BIN \
+	BUILDTOOLS_PREBUILT_BIN=$BUILDTOOLS_PREBUILT_BIN \
+	EXTRA_CMDS=$EXTRA_CMDS \
+	STOP_SHIP_TRACEPRINTK=$STOP_SHIP_TRACEPRINTK \
+	ARCH=$ARCH \
+	CLANG_TRIPLE=$CLANG_TRIPLE \
+	CROSS_COMPILE=$CROSS_COMPILE \
+	LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=$LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN \
+	2>&1 | tee out/kernel.log
+popd
