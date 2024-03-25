@@ -9,12 +9,12 @@ build:
 	docker build \
 		-t $(IMAGE_NAME):${TAG} .
 
-	docker run \
+#	docker run \
 		--name ${IMAGE_NAME}-container \
 		-v ./out:/opt/build/kernel/out \
 		$(IMAGE_NAME):${TAG}
 
-	make clean_image
+#	make clean_image
 
 clean_image:
 	docker stop $(IMAGE_NAME)-container 2> /dev/null || true
