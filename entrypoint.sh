@@ -29,7 +29,7 @@ export STOP_SHIP_TRACEPRINTK=1
 
 export ARCH=arm64
 export CLANG_TRIPLE=aarch64-linux-gnu-
-export CROSS_COMPILE=aarch64-linux-androidkernel-
+export CROSS_COMPILE=aarch64-linux-android-
 export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=$GCC_TOOLCHAINS
 #export FILES="
 #arch/arm64/boot/Image.gz
@@ -41,17 +41,12 @@ pushd $KERNEL_SRC
 make O=out ARCH=$ARCH camellia_defconfig
 
 make -j$(nproc --all) O=out \
-	BRANCH=$BRANCH \
-	KERNEL_DIR=$KERNEL_DIR \
 	CC=$CC \
 	LD=$LD \
-	CLANG_PREBUILT_BIN=$CLANG_PREBUILT_BIN \
-	BUILDTOOLS_PREBUILT_BIN=$BUILDTOOLS_PREBUILT_BIN \
-	EXTRA_CMDS=$EXTRA_CMDS \
-	STOP_SHIP_TRACEPRINTK=$STOP_SHIP_TRACEPRINTK \
 	ARCH=$ARCH \
 	CLANG_TRIPLE=$CLANG_TRIPLE \
 	CROSS_COMPILE=$CROSS_COMPILE \
-	LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=$LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN \
 	2>&1 | tee out/kernel.log
+
+tar -czvf out.tar.gz out
 popd
