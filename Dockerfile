@@ -12,8 +12,8 @@ RUN sudo mkdir -p /opt/build/tools && \
 WORKDIR /opt/build
 
 RUN pushd tools && \
-  wget https://android.googlesource.com/platform//prebuilts/clang/host/linux-x86/+archive/3857008389202edac32d57008bb8c99d2c957f9d/clang-r383902.tar.gz -o clang.tar.gz && \
-  mkdir clang && tar -xf clang.tar.gz -C clang && \
+  wget https://android.googlesource.com/platform//prebuilts/clang/host/linux-x86/+archive/3857008389202edac32d57008bb8c99d2c957f9d/clang-r383902.tar.gz -o clang.tgz && \
+  mkdir clang && tar vxf clang.tgz -C clang && \
   rm clang.tar.gz && \
   popd
 ENV CLANG_TOOLCHAINS /opt/build/tools/clang/bin
