@@ -12,15 +12,15 @@ RUN sudo mkdir -p /opt/build/tools && \
 WORKDIR /opt/build
 
 RUN pushd tools && \
-  wget https://android.googlesource.com/platform//prebuilts/clang/host/linux-x86/+archive/3857008389202edac32d57008bb8c99d2c957f9d/clang-r383902.tar.gz -o clang.tar.gz && \
+  wget https://android.googlesource.com/platform//prebuilts/clang/host/linux-x86/+archive/3857008389202edac32d57008bb8c99d2c957f9d/clang-r383902.tar.gz && \
   ls && \ 
   popd
 
 RUN pushd tools && \
-  tar vxf clang.tar.gz -C clang && \
-  rm clang.tar.gz && \
+  tar vxf clang-r383902.tar.gz && \
+  rm clang-r383902.tar.gz && \
   popd
-ENV CLANG_TOOLCHAINS /opt/build/tools/clang/bin
+ENV CLANG_TOOLCHAINS /opt/build/tools/clang-r383902/bin
 
 RUN pushd tools && \
   git clone --depth=1 https://github.com/z-kernel/gcc-aarch64-linux-android-4.9.git gcc && \
