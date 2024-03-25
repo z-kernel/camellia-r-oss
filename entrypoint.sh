@@ -12,8 +12,9 @@ ls $GCC_TOOLCHAINS
 echo "*********************************"
 ls $KERNEL_SRC
 echo "*********************************"
+sudo chmod -R 777 /opt/build
 
-#export PATH="$CLANG_TOOLCHAINS:$BUILDTOOLS_TOOLCHAINS/path/linux-x86:$GCC_TOOLCHAINS:$PATH"
+export PATH="$CLANG_TOOLCHAINS:$BUILDTOOLS_TOOLCHAINS/path/linux-x86:$GCC_TOOLCHAINS:$PATH"
 
 export BRANCH=android-4.14
 export KERNEL_DIR=common

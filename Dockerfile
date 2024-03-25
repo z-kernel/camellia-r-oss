@@ -30,9 +30,9 @@ ENV GCC_TOOLCHAINS /opt/build/tools/gcc/bin
 
 RUN git clone --depth=1 https://github.com/MiCode/Xiaomi_Kernel_OpenSource.git -b camellia-r-oss kernel && \
   pushd kernel && \
-  git fetch --depth=1 origin 4b6c276ac99cad51bf4d0bd6ea12a32847403b42 && \
-  git checkout 4b6c276ac99cad51bf4d0bd6ea12a32847403b42 && \
-  git branch -D @{-1} && \
+  #git fetch --depth=1 origin 4b6c276ac99cad51bf4d0bd6ea12a32847403b42 && \
+  #git checkout 4b6c276ac99cad51bf4d0bd6ea12a32847403b42 && \
+  #git branch -D @{-1} && \
   popd
 ENV KERNEL_SRC /opt/build/kernel
 
