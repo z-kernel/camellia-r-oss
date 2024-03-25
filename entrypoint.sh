@@ -1,6 +1,17 @@
 #!/bin/bash
 set -m
 
+ls $CLANG_TOOLCHAINS
+echo "*********************************"
+ls $BUILDTOOLS_TOOLCHAINS
+echo "*********************************"
+ls $GCC_TOOLCHAINS
+echo "*********************************"
+ls $KERNEL_SRC
+echo "*********************************"
+
+export PATH="$CLANG_TOOLCHAINS:$BUILDTOOLS_TOOLCHAINS/path/linux-x86:$GCC_TOOLCHAINS:$PATH"
+
 export BRANCH=android-4.14
 export KERNEL_DIR=common
 
