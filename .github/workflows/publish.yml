@@ -31,5 +31,5 @@ jobs:
           password: ${{ env.PASS }} 
       - name: Build and publish
         run: |
-          make 
-
+          make IMAGE_NAME=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }} TAG=${{ env.TAG }} build
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.TAG }}
