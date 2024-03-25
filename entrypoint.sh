@@ -24,7 +24,6 @@ export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=$GCC_TOOLCHAINS
 
 pushd $KERNEL_SRC
 make O=out ARCH=$ARCH camellia_defconfig
-sudo chmod -R 777 out
 
 make -j$(nproc --all) O=out \
 	BRANCH=$BRANCH \
