@@ -37,16 +37,16 @@ export LINUX_GCC_CROSS_COMPILE_PREBUILTS_BIN=$GCC_TOOLCHAINS
 #System.map
 #"
 
-pushd $KERNEL_SRC
-make O=out ARCH=$ARCH camellia_defconfig
+#pushd $KERNEL_SRC
+#make O=out ARCH=$ARCH camellia_defconfig
 
-make -j$(nproc --all) O=out \
-	CC=$CC \
-	LD=$LD \
-	ARCH=$ARCH \
-	CLANG_TRIPLE=$CLANG_TRIPLE \
-	CROSS_COMPILE=$CROSS_COMPILE \
-	2>&1 | tee out/kernel.log
+#make -j$(nproc --all) O=out \
+#	CC=$CC \
+#	LD=$LD \
+#	ARCH=$ARCH \
+#	CLANG_TRIPLE=$CLANG_TRIPLE \
+#	CROSS_COMPILE=$CROSS_COMPILE \
+#	2>&1 | tee out/kernel.log
 
-tar -czvf out.tar.gz out
-popd
+#tar -czvf out.tar.gz out
+#popd
